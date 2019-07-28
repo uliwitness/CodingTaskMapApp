@@ -10,6 +10,7 @@ class MapController {
 	var cars = [Car]()
 	var errorHandler: ((Error) -> Void)?
 	var updateHandler: (() -> Void)?
+	var contentChangeHandler: ((Car) -> Void)?
 	private var taskInProgress: URLSessionDataTask?
 	private var reachability = Reachability(hostName: "https://cdn.sixt.io/")
 
@@ -53,11 +54,13 @@ class MapController {
 			do {
 				let decoder = JSONDecoder()
 				let cars = try decoder.decode([Car].self, from: data)
-				cars.forEach {
-					$0.loadImage()
-				}
 				self.cars = cars
-				
+				cars.forEach { car in
+					if let url = URL(string: car.carImageUrl) {
+						ImageCache.download(url: url) { _ in self.contentChangeHandler?(car) }
+					}
+				}
+
 				DispatchQueue.main.async {
 					self.taskInProgress = nil
 					self.updateHandler?()

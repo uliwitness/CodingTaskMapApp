@@ -1,28 +1,14 @@
-//
-//  ListViewController.swift
-//  CodingTaskMapApp
-//
-//  Created by Uli Kusterer on 28.07.19.
-//  Copyright © 2019 Uli Kusterer. All rights reserved.
-//
-
 import UIKit
 
 class CarListViewController: UITableViewController, MapControllerDisplaying {
 	var mapController: MapController!
 	private var progress = ProgressLayerController()
 
-	deinit {
-		Car.removeListener(self)
-	}
-
     override func viewDidLoad() {
         super.viewDidLoad()
 		
 		progress.createView(in: self.view)
 		
-		Car.addListener(self)
-
 		mapController.errorHandler = { [weak self] error in
 			guard let strongSelf = self else { return }
 			strongSelf.progress.stop()
@@ -31,6 +17,9 @@ class CarListViewController: UITableViewController, MapControllerDisplaying {
 		mapController.updateHandler = { [weak self] in
 			self?.progress.stop()
 			self?.tableView.reloadData()
+		}
+		mapController.contentChangeHandler = { [weak self] car in
+			self?.carUpdated(car)
 		}
 
 		do {
@@ -57,9 +46,14 @@ class CarListViewController: UITableViewController, MapControllerDisplaying {
 		} else {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "com.thevoidsoftware.carlistviewcontroller.carcell", for: indexPath) as! CarTableViewCell
 
-			cell.carNameLabel.text = mapController.cars[indexPath.row].name
-			cell.carModelLabel.text = mapController.cars[indexPath.row].modelName
-			cell.carImageView.image = mapController.cars[indexPath.row].image
+			let car = mapController.cars[indexPath.row]
+			cell.carNameLabel.text = car.name
+			cell.carModelLabel.text = car.modelName
+			if let url = URL(string: car.carImageUrl) {
+				cell.carImageView.image = ImageCache.cachedImage(url: url)
+			} else {
+				cell.carImageView.image = UIImage(named: "annotation")!
+			}
 			
         	return cell
 		}

@@ -104,7 +104,6 @@ class Reachability: NSObject {
 	}
 	
 	func startNotifier() -> Bool {
-		
 		guard notifying == false else {
 			return false
 		}

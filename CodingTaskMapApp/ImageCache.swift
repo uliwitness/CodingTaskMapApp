@@ -13,12 +13,21 @@ class ImageCache {
 	private static var urlToImage = [URL: ImageEntry]()
 	private static let imageWidthHeight = CGFloat(64.0)
 
+	static func cachedImage(url: URL) -> UIImage {
+		if let foundEntry = urlToImage[url], let image = foundEntry.image { // Is not a load-in-progress?
+			return image
+		}
+		return UIImage(named: "annotation")!
+	}
+
 	static func download(url: URL, completion: @escaping (UIImage?) -> Void) {
 		// TODO: Should expire images from cache.
 		// Anything in cache?
 		if let foundEntry = urlToImage[url] {
 			if let image = foundEntry.image { // Is not a load-in-progress?
-				completion(image)
+				DispatchQueue.main.async {
+					completion(image)
+				}
 			} else {
 				foundEntry.completions.append(completion)
 			}

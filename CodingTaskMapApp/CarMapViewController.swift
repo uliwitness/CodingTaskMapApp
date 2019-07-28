@@ -1,7 +1,6 @@
 import UIKit
 import MapKit
 
-
 class CarMapViewController: UIViewController, MKMapViewDelegate, MapControllerDisplaying {
 	@IBOutlet var mapView: MKMapView!
 	@IBOutlet var emptyMessageContainer: UIView!
@@ -10,18 +9,12 @@ class CarMapViewController: UIViewController, MKMapViewDelegate, MapControllerDi
 	private var annotations = [CarAnnotation]()
 	private var firstLoad = true
 	
-	deinit {
-		Car.removeListener(self)
-	}
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
 		emptyMessageContainer.layer.cornerRadius = CGFloat(8.0)
 		
 		progress.createView(in: self.view)
-		
-		Car.addListener(self)
 		
 		mapController.errorHandler = { [weak self] error in
 			guard let strongSelf = self else { return }
@@ -32,6 +25,9 @@ class CarMapViewController: UIViewController, MKMapViewDelegate, MapControllerDi
 		mapController.updateHandler = { [weak self] in
 			self?.progress.stop()
 			self?.rebuildAnnotations()
+		}
+		mapController.contentChangeHandler = { [weak self] car in
+			self?.carUpdated(car)
 		}
 
 		do {
@@ -97,8 +93,9 @@ class CarMapViewController: UIViewController, MKMapViewDelegate, MapControllerDi
 
 extension CarMapViewController: CarUpdateListener {
 	func carUpdated(_ car: Car) {
-		if let annotation = annotations.first(where: { $0.car === car }) {
-			annotation.view?.image = car.image
+		if let annotation = annotations.first(where: { $0.car === car }),
+			let url = URL(string: car.carImageUrl) {
+			annotation.view?.image = ImageCache.cachedImage(url: url)
 		}
 	}
 }
@@ -106,7 +103,13 @@ extension CarMapViewController: CarUpdateListener {
 // Could just make this an extension on Car, but that feels like premature optimization and a layering violation.
 class CarAnnotation: NSObject, MKAnnotation {
 	var car: Car
-	var image: UIImage? { return car.image }
+	var image: UIImage? {
+		if let url = URL(string: car.carImageUrl) {
+			return ImageCache.cachedImage(url: url)
+		} else {
+			return UIImage(named: "annotation")
+		}
+	}
 	weak var view: MKAnnotationView?
     var title: String? { return car.name }
     var subtitle: String? { return car.modelName }

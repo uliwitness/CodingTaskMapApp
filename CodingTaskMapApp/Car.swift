@@ -1,9 +1,13 @@
 import UIKit
 
+/// An object that gets notified of changes to any car.
+/// Use with `Car.addListener()` and `Car.removeListener()`.
 protocol CarUpdateListener: AnyObject {
 	func carUpdated(_ car: Car)
 }
 
+/// A Car as it is stored on the server.
+/// I'm also caching the UIImage here, which is arguably a bit unclean.
 class Car: Codable {
 	var id: String = ""
 	var modelIdentifier: String = ""
@@ -21,55 +25,6 @@ class Car: Codable {
 	var longitude: Double = 0.0
 	var innerCleanliness: String = ""
 	var carImageUrl: String = ""
-	var image: UIImage?
-	
-	enum CodingKeys: CodingKey {
-		case id
-		case modelIdentifier
-		case modelName
-		case name
-		case make
-		case group
-		case color
-		case series
-		case fuelType
-		case fuelLevel
-		case transmission
-		case licensePlate
-		case latitude
-		case longitude
-		case innerCleanliness
-		case carImageUrl
-	}
-	
-	private static var updateListeners = [CarUpdateListener]()
-	
-	static func addListener(_ listener: CarUpdateListener) {
-		Car.updateListeners.append(listener)
-	}
-	
-	static func removeListener(_ listener: CarUpdateListener) {
-		if let index = Car.updateListeners.firstIndex(where: { $0 === listener }) {
-			Car.updateListeners.remove(at: index)
-		}
-	}
-	
-	func loadImage() {
-		if image != nil { return }
-		
-		image = UIImage(named: "annotation") // Placeholder until loaded.
-		
-		guard let url = URL(string: carImageUrl) else { return }
-		
-		ImageCache.download(url: url) {
-			if let image = $0 {
-				DispatchQueue.main.async {
-					self.image = image
-					Car.updateListeners.forEach { $0.carUpdated(self) }
-				}
-			}
-		}
-	}
 }
 
 extension Car: CustomStringConvertible {

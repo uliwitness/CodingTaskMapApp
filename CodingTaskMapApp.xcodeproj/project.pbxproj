@@ -59,6 +59,7 @@
 		5590DFCB22EE089800E9B992 /* ErrorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenter.swift; sourceTree = "<group>"; };
 		5590DFCD22EE0D0900E9B992 /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		5590DFCF22EE0EEC00E9B992 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		5590DFD122EE188600E9B992 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +83,7 @@
 		5590DF8B22EDA20B00E9B992 = {
 			isa = PBXGroup;
 			children = (
+				5590DFD122EE188600E9B992 /* README.md */,
 				5590DF9622EDA20B00E9B992 /* CodingTaskMapApp */,
 				5590DFAB22EDA20E00E9B992 /* CodingTaskMapAppTests */,
 				5590DF9522EDA20B00E9B992 /* Products */,
