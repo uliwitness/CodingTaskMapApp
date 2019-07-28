@@ -2,6 +2,7 @@ import UIKit
 
 enum MapControllerError: Error {
 	case invalidUrl
+	case disconnectedError
 }
 
 class MapController {
@@ -10,6 +11,7 @@ class MapController {
 	var errorHandler: ((Error) -> Void)?
 	var updateHandler: (() -> Void)?
 	private var taskInProgress: URLSessionDataTask?
+	private var reachability = Reachability(hostName: "https://cdn.sixt.io/")
 
 	/// Request the list of cars to be updated. Will asynchronously call errorHandler/updateHandler
 	/// as needed on the main thread.
@@ -28,11 +30,29 @@ class MapController {
 				}
 				return
 			}
-			
+			guard let data = data else {
+				DispatchQueue.main.async {
+					self.taskInProgress = nil
+					if let reachability = self.reachability, !reachability.isReachable {
+						self.errorHandler?(NSError(domain: NSURLErrorDomain, code: NSURLErrorNotConnectedToInternet, userInfo: nil))
+					} else {
+						self.errorHandler?(NSError(domain: NSURLErrorDomain, code: NSURLErrorFileDoesNotExist, userInfo: [NSLocalizedDescriptionKey: "Data could not be downloaded."]))
+					}
+				}
+				return
+			}
+			if let httpResponse = response as? HTTPURLResponse,
+			 	httpResponse.statusCode == 404 {
+				DispatchQueue.main.async {
+					self.taskInProgress = nil
+						self.errorHandler?(NSError(domain: NSURLErrorDomain, code: NSURLErrorFileDoesNotExist, userInfo: [NSLocalizedDescriptionKey: "Data is missing on the server."]))
+				}
+				return
+			}
+
 			do {
 				let decoder = JSONDecoder()
-				let jsonData = try Data(contentsOf: url)
-				let cars = try decoder.decode([Car].self, from: jsonData)
+				let cars = try decoder.decode([Car].self, from: data)
 				cars.forEach {
 					$0.loadImage()
 				}

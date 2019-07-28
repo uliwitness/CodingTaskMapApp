@@ -84,6 +84,7 @@ class CarMapViewController: UIViewController, MKMapViewDelegate {
 	
 	func mapViewDidFailLoadingMap(_ mapView: MKMapView, withError error: Error) {
 		progress.stop()
+		presentError(error)
 	}
 
 	func mapViewWillStartRenderingMap(_ mapView: MKMapView) {
