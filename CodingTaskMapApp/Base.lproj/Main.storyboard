@@ -29,7 +29,7 @@
         <!--Cars-->
         <scene sceneID="f0W-0Z-PZ2">
             <objects>
-                <tableViewController title="Cars" id="kN2-FP-xrF" sceneMemberID="viewController">
+                <tableViewController title="Cars" id="kN2-FP-xrF" customClass="MainTableViewController" customModule="CodingTaskMapApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="WSi-Fq-yDz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

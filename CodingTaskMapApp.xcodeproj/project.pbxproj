@@ -23,6 +23,8 @@
 		5590DFC822EDF17A00E9B992 /* ProgressLayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5590DFC722EDF17A00E9B992 /* ProgressLayerController.swift */; };
 		5590DFCA22EE032300E9B992 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5590DFC922EE032200E9B992 /* Reachability.swift */; };
 		5590DFCC22EE089800E9B992 /* ErrorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5590DFCB22EE089800E9B992 /* ErrorPresenter.swift */; };
+		5590DFCE22EE0D0900E9B992 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5590DFCD22EE0D0900E9B992 /* MainTableViewController.swift */; };
+		5590DFD022EE0EEC00E9B992 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5590DFCF22EE0EEC00E9B992 /* ImageCache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,8 @@
 		5590DFC722EDF17A00E9B992 /* ProgressLayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressLayerController.swift; sourceTree = "<group>"; };
 		5590DFC922EE032200E9B992 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		5590DFCB22EE089800E9B992 /* ErrorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenter.swift; sourceTree = "<group>"; };
+		5590DFCD22EE0D0900E9B992 /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
+		5590DFCF22EE0EEC00E9B992 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,12 +103,14 @@
 				5590DF9722EDA20B00E9B992 /* AppDelegate.swift */,
 				5590DFB722EDA25A00E9B992 /* Car.swift */,
 				5590DFBD22EDABD700E9B992 /* MapController.swift */,
+				5590DFCD22EE0D0900E9B992 /* MainTableViewController.swift */,
 				5590DF9922EDA20B00E9B992 /* CarMapViewController.swift */,
 				5590DFC122EDD17900E9B992 /* CarListViewController.swift */,
 				5590DFC522EDD8AC00E9B992 /* CarTableViewCell.swift */,
 				5590DFC722EDF17A00E9B992 /* ProgressLayerController.swift */,
 				5590DFCB22EE089800E9B992 /* ErrorPresenter.swift */,
 				5590DFC922EE032200E9B992 /* Reachability.swift */,
+				5590DFCF22EE0EEC00E9B992 /* ImageCache.swift */,
 				5590DF9B22EDA20B00E9B992 /* Main.storyboard */,
 				5590DF9E22EDA20E00E9B992 /* Assets.xcassets */,
 				5590DFA022EDA20E00E9B992 /* LaunchScreen.storyboard */,
@@ -228,6 +234,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5590DFD022EE0EEC00E9B992 /* ImageCache.swift in Sources */,
 				5590DFBE22EDABD700E9B992 /* MapController.swift in Sources */,
 				5590DF9A22EDA20B00E9B992 /* CarMapViewController.swift in Sources */,
 				5590DFCC22EE089800E9B992 /* ErrorPresenter.swift in Sources */,
@@ -236,6 +243,7 @@
 				5590DFC322EDD17900E9B992 /* CarListViewController.swift in Sources */,
 				5590DFC822EDF17A00E9B992 /* ProgressLayerController.swift in Sources */,
 				5590DFCA22EE032300E9B992 /* Reachability.swift in Sources */,
+				5590DFCE22EE0D0900E9B992 /* MainTableViewController.swift in Sources */,
 				5590DFB822EDA25A00E9B992 /* Car.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

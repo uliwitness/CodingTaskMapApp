@@ -8,8 +8,8 @@
 
 import UIKit
 
-class CarListViewController: UITableViewController {
-	var mapController = MapController()
+class CarListViewController: UITableViewController, MapControllerDisplaying {
+	var mapController: MapController!
 	private var progress = ProgressLayerController()
 
 	deinit {

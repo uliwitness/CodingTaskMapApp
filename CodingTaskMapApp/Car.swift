@@ -22,7 +22,7 @@ class Car: Codable {
 	var innerCleanliness: String = ""
 	var carImageUrl: String = ""
 	var image: UIImage?
-
+	
 	enum CodingKeys: CodingKey {
 		case id
 		case modelIdentifier
@@ -41,10 +41,8 @@ class Car: Codable {
 		case innerCleanliness
 		case carImageUrl
 	}
-
-	private static var updateListeners = [CarUpdateListener]()
 	
-	static let imageWidthHeight = CGFloat(64.0)
+	private static var updateListeners = [CarUpdateListener]()
 	
 	static func addListener(_ listener: CarUpdateListener) {
 		Car.updateListeners.append(listener)
@@ -55,36 +53,22 @@ class Car: Codable {
 			Car.updateListeners.remove(at: index)
 		}
 	}
-
+	
 	func loadImage() {
 		if image != nil { return }
+		
+		image = UIImage(named: "annotation") // Placeholder until loaded.
+		
 		guard let url = URL(string: carImageUrl) else { return }
 		
-		// Could have global cache here to prevent fetching images repeatedly.
-		
-		let loadTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
-			guard error == nil, let data = data else { print("failed to load image: \(String(describing: error))"); return }
-			if let image = UIImage(data: data) {
-				var box = CGRect.zero
-				box.size = image.size
-				if box.width > box.height {
-					box.size.height = CGFloat(truncf(Float(box.height * (Car.imageWidthHeight / box.width))))
-					box.size.width = Car.imageWidthHeight
-				} else {
-					box.size.width = CGFloat(truncf(Float(box.width * (Car.imageWidthHeight / box.height))))
-					box.size.height = Car.imageWidthHeight
-				}
-				UIGraphicsBeginImageContext(box.size)
-				image.draw(in: box)
-				self.image = UIGraphicsGetImageFromCurrentImageContext()
+		ImageCache.download(url: url) {
+			if let image = $0 {
 				DispatchQueue.main.async {
+					self.image = image
 					Car.updateListeners.forEach { $0.carUpdated(self) }
 				}
 			}
 		}
-		loadTask.resume()
-		
-		image = UIImage(named: "annotation") // Placeholder until loaded.
 	}
 }
 

@@ -2,10 +2,10 @@ import UIKit
 import MapKit
 
 
-class CarMapViewController: UIViewController, MKMapViewDelegate {
+class CarMapViewController: UIViewController, MKMapViewDelegate, MapControllerDisplaying {
 	@IBOutlet var mapView: MKMapView!
 	private var progress = ProgressLayerController()
-	var mapController = MapController()
+	var mapController: MapController!
 	private var annotations = [CarAnnotation]()
 	private var firstLoad = true
 	
