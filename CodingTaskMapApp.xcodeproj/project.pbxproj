@@ -20,6 +20,7 @@
 		5590DFC022EDB88F00E9B992 /* annotation.png in Resources */ = {isa = PBXBuildFile; fileRef = 5590DFBF22EDB88F00E9B992 /* annotation.png */; };
 		5590DFC322EDD17900E9B992 /* CarListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5590DFC122EDD17900E9B992 /* CarListViewController.swift */; };
 		5590DFC622EDD8AC00E9B992 /* CarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5590DFC522EDD8AC00E9B992 /* CarTableViewCell.swift */; };
+		5590DFC822EDF17A00E9B992 /* ProgressLayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5590DFC722EDF17A00E9B992 /* ProgressLayerController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		5590DFBF22EDB88F00E9B992 /* annotation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = annotation.png; sourceTree = "<group>"; };
 		5590DFC122EDD17900E9B992 /* CarListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarListViewController.swift; sourceTree = "<group>"; };
 		5590DFC522EDD8AC00E9B992 /* CarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarTableViewCell.swift; sourceTree = "<group>"; };
+		5590DFC722EDF17A00E9B992 /* ProgressLayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressLayerController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				5590DF9922EDA20B00E9B992 /* CarMapViewController.swift */,
 				5590DFC122EDD17900E9B992 /* CarListViewController.swift */,
 				5590DFC522EDD8AC00E9B992 /* CarTableViewCell.swift */,
+				5590DFC722EDF17A00E9B992 /* ProgressLayerController.swift */,
 				5590DF9B22EDA20B00E9B992 /* Main.storyboard */,
 				5590DF9E22EDA20E00E9B992 /* Assets.xcassets */,
 				5590DFA022EDA20E00E9B992 /* LaunchScreen.storyboard */,
@@ -224,6 +227,7 @@
 				5590DFC622EDD8AC00E9B992 /* CarTableViewCell.swift in Sources */,
 				5590DF9822EDA20B00E9B992 /* AppDelegate.swift in Sources */,
 				5590DFC322EDD17900E9B992 /* CarListViewController.swift in Sources */,
+				5590DFC822EDF17A00E9B992 /* ProgressLayerController.swift in Sources */,
 				5590DFB822EDA25A00E9B992 /* Car.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

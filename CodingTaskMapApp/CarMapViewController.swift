@@ -4,6 +4,7 @@ import MapKit
 
 class CarMapViewController: UIViewController, MKMapViewDelegate {
 	@IBOutlet var mapView: MKMapView!
+	private var progress = ProgressLayerController()
 	var mapController = MapController()
 	private var annotations = [CarAnnotation]()
 	private var firstLoad = true
@@ -15,16 +16,21 @@ class CarMapViewController: UIViewController, MKMapViewDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		progress.createView(in: self.view)
+		
 		Car.addListener(self)
 		
 		mapController.errorHandler = { [weak self] error in
+			self?.progress.stop()
 			self?.presentError(error)
 		}
 		mapController.updateHandler = { [weak self] in
+			self?.progress.stop()
 			self?.rebuildAnnotations()
 		}
 
 		do {
+			progress.start()
 			try mapController.update()
 		} catch {
 			presentError(error)
@@ -66,6 +72,26 @@ class CarMapViewController: UIViewController, MKMapViewDelegate {
 		self.present(alert, animated: true) {
 			// Done.
 		}
+	}
+	
+	func mapViewWillStartLoadingMap(_ mapView: MKMapView) {
+		progress.start()
+	}
+	
+	func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+		progress.stop()
+	}
+	
+	func mapViewDidFailLoadingMap(_ mapView: MKMapView, withError error: Error) {
+		progress.stop()
+	}
+
+	func mapViewWillStartRenderingMap(_ mapView: MKMapView) {
+		progress.start()
+	}
+
+	func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
+		progress.stop()
 	}
 }
 

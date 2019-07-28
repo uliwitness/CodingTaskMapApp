@@ -16,7 +16,7 @@ class MapController {
 	/// Obtain list of cars from the cars property. If a request is in progress, this will do nothing
 	/// and you'll only receive one callback when the original request finishes.
 	func update() throws {
-		guard taskInProgress == nil else { return } // They'll get what they want when the request returns.
+		guard taskInProgress == nil else { self.updateHandler?(); return } // They'll get what they want when the request returns, but balance the updateHandler callback.
 	
 		guard let url = URL(string: "https://cdn.sixt.io/codingtask/cars") else { throw MapControllerError.invalidUrl }
 		

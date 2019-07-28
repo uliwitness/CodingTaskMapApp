@@ -10,7 +10,8 @@ import UIKit
 
 class CarListViewController: UITableViewController {
 	var mapController = MapController()
-	
+	private var progress = ProgressLayerController()
+
 	deinit {
 		Car.removeListener(self)
 	}
@@ -18,16 +19,21 @@ class CarListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
+		progress.createView(in: self.view)
+		
 		Car.addListener(self)
 
 		mapController.errorHandler = { [weak self] error in
+			self?.progress.stop()
 			self?.presentError(error)
 		}
 		mapController.updateHandler = { [weak self] in
+			self?.progress.stop()
 			self?.tableView.reloadData()
 		}
 
 		do {
+			progress.start()
 			try mapController.update()
 		} catch {
 			presentError(error)
@@ -41,17 +47,21 @@ class CarListViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return mapController.cars.count
+        return max(mapController.cars.count, 1)
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "com.thevoidsoftware.carlistviewcontroller.carcell", for: indexPath) as! CarTableViewCell
+    	if mapController.cars.count == 0 {
+			return tableView.dequeueReusableCell(withIdentifier: "com.thevoidsoftware.carlistviewcontroller.emptycell", for: indexPath)
+		} else {
+			let cell = tableView.dequeueReusableCell(withIdentifier: "com.thevoidsoftware.carlistviewcontroller.carcell", for: indexPath) as! CarTableViewCell
 
-        cell.carNameLabel.text = mapController.cars[indexPath.row].name
-        cell.carModelLabel.text = mapController.cars[indexPath.row].modelName
-        cell.carImageView.image = mapController.cars[indexPath.row].image
-
-        return cell
+			cell.carNameLabel.text = mapController.cars[indexPath.row].name
+			cell.carModelLabel.text = mapController.cars[indexPath.row].modelName
+			cell.carImageView.image = mapController.cars[indexPath.row].image
+			
+        	return cell
+		}
     }
 	
 	func presentError(_ error: Error) {
