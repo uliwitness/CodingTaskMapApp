@@ -4,6 +4,7 @@ import MapKit
 
 class CarMapViewController: UIViewController, MKMapViewDelegate, MapControllerDisplaying {
 	@IBOutlet var mapView: MKMapView!
+	@IBOutlet var emptyMessageContainer: UIView!
 	private var progress = ProgressLayerController()
 	var mapController: MapController!
 	private var annotations = [CarAnnotation]()
@@ -16,6 +17,8 @@ class CarMapViewController: UIViewController, MKMapViewDelegate, MapControllerDi
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		emptyMessageContainer.layer.cornerRadius = CGFloat(8.0)
+		
 		progress.createView(in: self.view)
 		
 		Car.addListener(self)
@@ -23,6 +26,7 @@ class CarMapViewController: UIViewController, MKMapViewDelegate, MapControllerDi
 		mapController.errorHandler = { [weak self] error in
 			guard let strongSelf = self else { return }
 			strongSelf.progress.stop()
+			strongSelf.emptyMessageContainer.isHidden = !strongSelf.mapController.cars.isEmpty
 			ErrorPresenter.presentError(error, on: strongSelf)
 		}
 		mapController.updateHandler = { [weak self] in
@@ -56,6 +60,8 @@ class CarMapViewController: UIViewController, MKMapViewDelegate, MapControllerDi
 				self.mapView.showAnnotations(self.annotations, animated: false)
 			}
 		}
+		
+		emptyMessageContainer.isHidden = !mapController.cars.isEmpty
 	}
 	
 	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
