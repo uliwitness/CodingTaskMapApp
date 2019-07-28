@@ -21,8 +21,9 @@ class CarMapViewController: UIViewController, MKMapViewDelegate {
 		Car.addListener(self)
 		
 		mapController.errorHandler = { [weak self] error in
-			self?.progress.stop()
-			self?.presentError(error)
+			guard let strongSelf = self else { return }
+			strongSelf.progress.stop()
+			ErrorPresenter.presentError(error, on: strongSelf)
 		}
 		mapController.updateHandler = { [weak self] in
 			self?.progress.stop()
@@ -33,7 +34,7 @@ class CarMapViewController: UIViewController, MKMapViewDelegate {
 			progress.start()
 			try mapController.update()
 		} catch {
-			presentError(error)
+			ErrorPresenter.presentError(error, on: self)
 		}
 	}
 	
@@ -65,15 +66,7 @@ class CarMapViewController: UIViewController, MKMapViewDelegate {
 		}
 		return annotationView
 	}
-	
-	func presentError(_ error: Error) {
-		let alert = UIAlertController(title: "Failed to fetch car list", message: error.localizedDescription, preferredStyle: .alert)
-		alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Fetch failed error Default action"), style: .default, handler: nil))
-		self.present(alert, animated: true) {
-			// Done.
-		}
-	}
-	
+		
 	func mapViewWillStartLoadingMap(_ mapView: MKMapView) {
 		progress.start()
 	}
@@ -84,7 +77,7 @@ class CarMapViewController: UIViewController, MKMapViewDelegate {
 	
 	func mapViewDidFailLoadingMap(_ mapView: MKMapView, withError error: Error) {
 		progress.stop()
-		presentError(error)
+		ErrorPresenter.presentError(error, on: self)
 	}
 
 	func mapViewWillStartRenderingMap(_ mapView: MKMapView) {

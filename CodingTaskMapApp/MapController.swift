@@ -34,9 +34,9 @@ class MapController {
 				DispatchQueue.main.async {
 					self.taskInProgress = nil
 					if let reachability = self.reachability, !reachability.isReachable {
-						self.errorHandler?(NSError(domain: NSURLErrorDomain, code: NSURLErrorNotConnectedToInternet, userInfo: nil))
+						self.errorHandler?(CommonError.offlineError)
 					} else {
-						self.errorHandler?(NSError(domain: NSURLErrorDomain, code: NSURLErrorFileDoesNotExist, userInfo: [NSLocalizedDescriptionKey: "Data could not be downloaded."]))
+						self.errorHandler?(CommonError.urlNotFoundError)
 					}
 				}
 				return
@@ -45,7 +45,7 @@ class MapController {
 			 	httpResponse.statusCode == 404 {
 				DispatchQueue.main.async {
 					self.taskInProgress = nil
-						self.errorHandler?(NSError(domain: NSURLErrorDomain, code: NSURLErrorFileDoesNotExist, userInfo: [NSLocalizedDescriptionKey: "Data is missing on the server."]))
+					self.errorHandler?(CommonError.urlNotFoundError)
 				}
 				return
 			}
